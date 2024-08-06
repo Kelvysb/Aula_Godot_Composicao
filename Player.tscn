@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0nblk36e85nj"]
+
+[ext_resource type="PackedScene" uid="uid://oxha58v65xxp" path="res://TPMovement3D.tscn" id="1_w42vu"]
+[ext_resource type="PackedScene" uid="uid://q5oj6c8iij7s" path="res://JumpMovement3D.tscn" id="2_wonss"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dcria"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xe1ps"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_klqd2"]
+
+[node name="Player" type="CharacterBody3D"]
+
+[node name="Geometry" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_dcria")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Geometry"]
+transform = Transform3D(0.581448, 0, 0, 0, -2.01629e-08, 0.346529, 0, -0.461274, -1.51473e-08, -0.000645518, 0.523103, -0.198708)
+mesh = SubResource("CylinderMesh_xe1ps")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_klqd2")
+
+[node name="TpMovement3d" parent="." instance=ExtResource("1_w42vu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.642052, 1.40285, 0)
+handle_move_and_slide = true
+
+[node name="JumpMovement3d" parent="." instance=ExtResource("2_wonss")]

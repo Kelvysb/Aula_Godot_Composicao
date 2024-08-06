@@ -1,0 +1,451 @@
+[gd_scene load_steps=21 format=3 uid="uid://b7beaye4eimi3"]
+
+[ext_resource type="Material" uid="uid://debea17x1iwlj" path="res://LeavesMat.tres" id="1_3dl7c"]
+[ext_resource type="PackedScene" uid="uid://b0nblk36e85nj" path="res://Player.tscn" id="2_v8rs8"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i442q"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ngb43"]
+sky_material = SubResource("ProceduralSkyMaterial_i442q")
+
+[sub_resource type="Environment" id="Environment_kdijx"]
+background_mode = 2
+sky = SubResource("Sky_ngb43")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_do5xx"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_aos4k"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3m3rk"]
+
+[sub_resource type="Gradient" id="Gradient_bxd0n"]
+colors = PackedColorArray(0.401903, 0.588231, 0.994375, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5dsr8"]
+frequency = 0.0051
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yykdq"]
+width = 2048
+color_ramp = SubResource("Gradient_bxd0n")
+noise = SubResource("FastNoiseLite_5dsr8")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j7mw3"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = SubResource("NoiseTexture2D_yykdq")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_tbaum"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_085sh"]
+
+[sub_resource type="Gradient" id="Gradient_smndm"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.0491803, 0.0655738)
+colors = PackedColorArray(0, 0, 0, 1, 0.164239, 0.0404991, 3.60981e-08, 1, 0.436285, 0.152866, 4.81308e-08, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_l6nrr"]
+noise_type = 2
+frequency = 0.0248
+fractal_type = 0
+cellular_return_type = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_k1o58"]
+width = 1024
+height = 1024
+in_3d_space = true
+color_ramp = SubResource("Gradient_smndm")
+noise = SubResource("FastNoiseLite_l6nrr")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyg4d"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = SubResource("NoiseTexture2D_k1o58")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1ph0v"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_jbhfn"]
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kdijx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(23.7885, 0, 0, 0, 1, 0, 0, 0, 23.7885, 0.00720787, -9.53674e-07, 0.0435395)
+mesh = SubResource("PlaneMesh_do5xx")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Floor/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_aos4k")
+
+[node name="Wall1" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 7.36868, 0, 0, 0, 47.6166, -23.2788, 3.50261, 0)
+mesh = SubResource("BoxMesh_3m3rk")
+surface_material_override/0 = SubResource("StandardMaterial3D_j7mw3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Wall1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Wall1/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_tbaum")
+
+[node name="Wall2" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 7.36868, 0, 0, 0, 47.6166, 24.1331, 3.50261, 0)
+mesh = SubResource("BoxMesh_3m3rk")
+surface_material_override/0 = SubResource("StandardMaterial3D_j7mw3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Wall2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Wall2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_tbaum")
+
+[node name="Wall3" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, 47.6166, 0, 7.36868, 0, -1, 0, -2.08139e-06, 0.42714, 3.50261, 23.7059)
+mesh = SubResource("BoxMesh_3m3rk")
+surface_material_override/0 = SubResource("StandardMaterial3D_j7mw3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Wall3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Wall3/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_tbaum")
+
+[node name="Wall4" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, 47.6166, 0, 7.36868, 0, -1, 0, -2.08139e-06, 0.427138, 3.50261, -23.7059)
+mesh = SubResource("BoxMesh_3m3rk")
+surface_material_override/0 = SubResource("StandardMaterial3D_j7mw3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Wall4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Wall4/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_tbaum")
+
+[node name="Tree1" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 5.05042, 0, 0, 0, 1, -0.0151668, 4.28508, -0.0132318)
+mesh = SubResource("CylinderMesh_085sh")
+surface_material_override/0 = SubResource("StandardMaterial3D_xyg4d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Tree1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Tree1/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1ph0v")
+
+[node name="Leaves1" type="MeshInstance3D" parent="Map/Tree1"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.906848, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves2" type="MeshInstance3D" parent="Map/Tree1"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.41963, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves3" type="MeshInstance3D" parent="Map/Tree1"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.821617, 0.732237)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves4" type="MeshInstance3D" parent="Map/Tree1"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.710304, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves5" type="MeshInstance3D" parent="Map/Tree1"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.959697, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves6" type="MeshInstance3D" parent="Map/Tree1"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.826915, 0.848142, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves7" type="MeshInstance3D" parent="Map/Tree1"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.933677, 0.876064, -1.35789)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Tree2" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 5.05042, 0, 0, 0, 1, 12.8463, 2.64392, -0.0132318)
+mesh = SubResource("CylinderMesh_085sh")
+surface_material_override/0 = SubResource("StandardMaterial3D_xyg4d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Tree2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Tree2/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1ph0v")
+
+[node name="Leaves1" type="MeshInstance3D" parent="Map/Tree2"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.906848, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves2" type="MeshInstance3D" parent="Map/Tree2"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.41963, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves3" type="MeshInstance3D" parent="Map/Tree2"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.821617, 0.732237)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves4" type="MeshInstance3D" parent="Map/Tree2"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.710304, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves5" type="MeshInstance3D" parent="Map/Tree2"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.959697, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves6" type="MeshInstance3D" parent="Map/Tree2"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.826915, 0.848142, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves7" type="MeshInstance3D" parent="Map/Tree2"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.933677, 0.876064, -1.35789)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Tree3" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 5.05042, 0, 0, 0, 1, 10.944, 2.64392, 11.0548)
+mesh = SubResource("CylinderMesh_085sh")
+surface_material_override/0 = SubResource("StandardMaterial3D_xyg4d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Tree3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Tree3/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1ph0v")
+
+[node name="Leaves1" type="MeshInstance3D" parent="Map/Tree3"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.906848, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves2" type="MeshInstance3D" parent="Map/Tree3"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.41963, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves3" type="MeshInstance3D" parent="Map/Tree3"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.821617, 0.732237)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves4" type="MeshInstance3D" parent="Map/Tree3"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.710304, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves5" type="MeshInstance3D" parent="Map/Tree3"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.959697, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves6" type="MeshInstance3D" parent="Map/Tree3"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.826915, 0.848142, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves7" type="MeshInstance3D" parent="Map/Tree3"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.933677, 0.876064, -1.35789)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Tree4" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 5.05042, 0, 0, 0, 1, -14.3483, 4.09485, 3.91832)
+mesh = SubResource("CylinderMesh_085sh")
+surface_material_override/0 = SubResource("StandardMaterial3D_xyg4d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Tree4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Tree4/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1ph0v")
+
+[node name="Leaves1" type="MeshInstance3D" parent="Map/Tree4"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.906848, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves2" type="MeshInstance3D" parent="Map/Tree4"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.41963, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves3" type="MeshInstance3D" parent="Map/Tree4"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.821617, 0.732237)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves4" type="MeshInstance3D" parent="Map/Tree4"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.710304, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves5" type="MeshInstance3D" parent="Map/Tree4"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.959697, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves6" type="MeshInstance3D" parent="Map/Tree4"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.826915, 0.848142, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves7" type="MeshInstance3D" parent="Map/Tree4"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.933677, 0.876064, -1.35789)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Tree5" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 5.05042, 0, 0, 0, 1, -14.3483, 0.594576, -16.4959)
+mesh = SubResource("CylinderMesh_085sh")
+surface_material_override/0 = SubResource("StandardMaterial3D_xyg4d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Tree5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Tree5/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1ph0v")
+
+[node name="Leaves1" type="MeshInstance3D" parent="Map/Tree5"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.906848, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves2" type="MeshInstance3D" parent="Map/Tree5"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.41963, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves3" type="MeshInstance3D" parent="Map/Tree5"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.821617, 0.732237)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves4" type="MeshInstance3D" parent="Map/Tree5"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.710304, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves5" type="MeshInstance3D" parent="Map/Tree5"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.959697, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves6" type="MeshInstance3D" parent="Map/Tree5"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.826915, 0.848142, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves7" type="MeshInstance3D" parent="Map/Tree5"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.933677, 0.876064, -1.35789)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Tree6" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 5.05042, 0, 0, 0, 1, 0.593286, 0.594576, -16.4959)
+mesh = SubResource("CylinderMesh_085sh")
+surface_material_override/0 = SubResource("StandardMaterial3D_xyg4d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Tree6"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Tree6/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1ph0v")
+
+[node name="Leaves1" type="MeshInstance3D" parent="Map/Tree6"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.906848, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves2" type="MeshInstance3D" parent="Map/Tree6"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.41963, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves3" type="MeshInstance3D" parent="Map/Tree6"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.821617, 0.732237)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves4" type="MeshInstance3D" parent="Map/Tree6"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.710304, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves5" type="MeshInstance3D" parent="Map/Tree6"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.959697, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves6" type="MeshInstance3D" parent="Map/Tree6"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.826915, 0.848142, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves7" type="MeshInstance3D" parent="Map/Tree6"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.933677, 0.876064, -1.35789)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Tree7" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 5.05042, 0, 0, 0, 1, 14.4048, 3.82018, -16.4959)
+mesh = SubResource("CylinderMesh_085sh")
+surface_material_override/0 = SubResource("StandardMaterial3D_xyg4d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Tree7"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Tree7/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1ph0v")
+
+[node name="Leaves1" type="MeshInstance3D" parent="Map/Tree7"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.906848, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves2" type="MeshInstance3D" parent="Map/Tree7"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.41963, 0.982701, 0)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves3" type="MeshInstance3D" parent="Map/Tree7"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.821617, 0.732237)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves4" type="MeshInstance3D" parent="Map/Tree7"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.710304, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves5" type="MeshInstance3D" parent="Map/Tree7"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.262441, 0.959697, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves6" type="MeshInstance3D" parent="Map/Tree7"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, 0.826915, 0.848142, -1.00313)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Leaves7" type="MeshInstance3D" parent="Map/Tree7"]
+transform = Transform3D(2.22394, 0, 0, 0, 0.46314, 0, 0, 0, 2.48723, -0.933677, 0.876064, -1.35789)
+mesh = SubResource("SphereMesh_jbhfn")
+surface_material_override/0 = ExtResource("1_3dl7c")
+
+[node name="Player" parent="." instance=ExtResource("2_v8rs8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -1)

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://q5oj6c8iij7s"]
+
+[ext_resource type="Script" path="res://JumpMovement3D.gd" id="1_kwpp7"]
+
+[node name="JumpMovement3d" type="Node3D"]
+script = ExtResource("1_kwpp7")
